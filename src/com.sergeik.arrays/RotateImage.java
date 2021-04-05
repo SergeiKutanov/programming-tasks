@@ -33,6 +33,26 @@ public class RotateImage {
      * Memory = O(1)
      * @param matrix
      *
+     *
+     * To remember
+     * get size
+     * iterate layers from 0 to half size
+     *  get first (last) and last (size - 1 - layer)
+     *  iterate cells in the layer from first to last
+     *      calculate offset = i - first
+     *      save top = m[first][i] - fi
+     *      move left to top -> m[fi] = m[lo][f]
+     *      move bottom to left -> m[lof] = m[l][lo]
+     *      move right to bottom -> m[l][lo] = m[i][l]
+     *      move top to right -> m[i][l] = m[f][i]
+     *
+     * layer = 0 > size / 2
+     *  first = layer
+     *  last = size - layer - 1
+     *  i = first -> last
+     *      offset = i - first
+     *      fi -> lof -> llo -> il
+     *
      */
     private static void solution(int[][] matrix) {
         int size = matrix.length;
