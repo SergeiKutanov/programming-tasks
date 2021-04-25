@@ -8,6 +8,11 @@ package com.sergeik.dynamic;
 public class ClimbingStairs {
 
     public static void main(String[] args) {
+
+        assert 1 == solution(1);
+        assert 1 == dynamicSolution(1);
+        assert 1 == fibSolution(1);
+
         assert 3 == solution(3);
         assert 3 == dynamicSolution(3);
         assert 3 == fibSolution(3);
@@ -61,6 +66,8 @@ public class ClimbingStairs {
     }
 
     private static int fibSolution(int n) {
+        if (n == 1)
+            return 1;
         int first = 1;
         int second = 2;
         for (int i = 3; i <= n; i++) {
