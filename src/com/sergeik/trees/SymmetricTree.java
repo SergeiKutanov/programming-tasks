@@ -33,16 +33,18 @@ public class SymmetricTree {
     }
 
     private static boolean itSolution(TreeNode root) {
+
         Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
-        queue.add(root);
+        queue.add(root.left);
+        queue.add(root.right);
         while (!queue.isEmpty()) {
             TreeNode root1 = queue.poll();
             TreeNode root2 = queue.poll();
             if (root1 == null && root2 == null)
                 continue;
-            if (root1 == null || root2 == null)
+            if (root1 == null || root2 == null) {
                 return false;
+            }
             if (root1.val != root2.val)
                 return false;
             queue.add(root1.left);
