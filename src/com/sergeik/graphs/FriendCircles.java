@@ -60,22 +60,19 @@ public class FriendCircles {
     private static int solution(int[][] isConnected) {
         int nNodes = isConnected.length;
         boolean[] visited = new boolean[nNodes];
-        int visitedNodes = 0;
+        Queue<Integer> nodesQueue = new LinkedList<>();
+        for (int i = 0; i < nNodes; i++)
+            nodesQueue.add(i);
         int nRegions = 0;
-        while (visitedNodes < nNodes) {
-            int nextNode = -1;
-            for (int i = 0; i < visited.length; i++) {
-                if (!visited[i]) {
-                    nextNode = i;
-                    break;
-                }
-            }
+        while (!nodesQueue.isEmpty()) {
+            int nextNode = nodesQueue.poll();
+            if (visited[nextNode])
+                continue;
             Queue<Integer> queue = new LinkedList<>();
             queue.add(nextNode);
             visited[nextNode] = true;
             while (!queue.isEmpty()) {
                 int nextCity = queue.poll();
-                visitedNodes++;
                 for (int n = 0; n < nNodes; n++) {
                     if (isConnected[nextCity][n] == 1 && !visited[n]) {
                         queue.add(n);
