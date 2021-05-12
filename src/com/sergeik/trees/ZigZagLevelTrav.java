@@ -25,37 +25,6 @@ public class ZigZagLevelTrav {
 
         List<List<Integer>> res = solution(root);
         assert validate(expected, res);
-
-        Node head = new Node(1);
-        head.left = new Node(2);
-        head.left.left = new Node(4);
-        head.left.right = new Node(5);
-        head.right = new Node(3);
-        head.right.left = new Node(6);
-        head.right.right = new Node(7);
-
-        Node result = connect(head);
-    }
-
-    public static Node connect(Node root) {
-        if (root == null)
-            return root;
-        Queue<Node> queue = new LinkedList<>();
-        queue.offer(root);
-        while (!queue.isEmpty()) {
-            int queueSize = queue.size();
-            while (queueSize > 0) {
-                queueSize--;
-                Node node = queue.poll();
-                if (queueSize > 0)
-                    node.next = queue.peek();
-                if (node.left != null)
-                    queue.offer(node.left);
-                if (node.right != null)
-                    queue.offer(node.right);
-            }
-        }
-        return root;
     }
 
     private static List<List<Integer>> solution(TreeNode root) {
@@ -85,26 +54,6 @@ public class ZigZagLevelTrav {
             odd = !odd;
         }
         return res;
-    }
-
-    static class Node {
-        public int val;
-        public Node left;
-        public Node right;
-        public Node next;
-
-        public Node() {}
-
-        public Node(int _val) {
-            val = _val;
-        }
-
-        public Node(int _val, Node _left, Node _right, Node _next) {
-            val = _val;
-            left = _left;
-            right = _right;
-            next = _next;
-        }
     }
 
     private static boolean validate(List<List<Integer>> l1, List<List<Integer>> l2) {
