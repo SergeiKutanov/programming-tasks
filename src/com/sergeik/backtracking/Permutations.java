@@ -1,4 +1,4 @@
-package com.sergeik.arrays;
+package com.sergeik.backtracking;
 
 import java.util.*;
 
