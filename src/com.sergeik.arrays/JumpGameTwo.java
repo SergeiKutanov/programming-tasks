@@ -9,7 +9,7 @@ package com.sergeik.arrays;
  *
  * You can assume that you can always reach the last index.
  */
-public class JumpGame {
+public class JumpGameTwo {
 
     public static void main(String[] args) {
         assert 3 == solution(new int[]{5,9,3,2,1,0,2,3,3,1,0,0});
