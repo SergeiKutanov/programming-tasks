@@ -1,5 +1,7 @@
 package com.sergeik.trees;
 
+import java.util.Arrays;
+
 /**
  * Given a binary tree, we install cameras on the nodes of the tree.
  *
@@ -43,6 +45,8 @@ public class BinaryTreeCameras {
      * @return
      */
     private static int dfs(TreeNode node) {
+        String s = "";
+        Arrays.copyOfRange(s.split(" "), 0,1);
         if (node == null)
             return 2;
         int left = dfs(node.left);
