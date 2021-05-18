@@ -54,7 +54,7 @@ public class ReverseLinkedListII {
         start = 2
         next = 3
          */
-        for (int i = 0; i < right - left; i++) {
+        for (int i = left; i < right; i++) {
             start.next = then.next;
             then.next = prev.next;
             prev.next = then;
