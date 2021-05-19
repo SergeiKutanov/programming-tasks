@@ -25,33 +25,22 @@ public class SwapNodesInPairs {
     }
 
     private static ListNode solution(ListNode head) {
-        ListNode cent = new ListNode(-1);
-        cent.next = head;
 
+        ListNode cent = new ListNode(0);
+        cent.next = head;
         ListNode prev = cent;
-        while (head != null) {
-            head = swap(prev, head);
-            if (head.next != null) {
-                prev = head.next;
-                head = head.next.next;
-            } else {
-                return cent.next;
-            }
+
+        while (head != null && head.next != null) {
+            ListNode tmp = head.next;
+            head.next = head.next.next;
+            prev.next = tmp;
+            prev.next.next = head;
+            prev = head;
+            head = head.next;
         }
 
         return cent.next;
-    }
 
-    private static ListNode swap(ListNode prev, ListNode node) {
-        if (node == null)
-            return null;
-        if (node.next == null)
-            return node;
-        ListNode tmp = node.next;
-        node.next = node.next.next;
-        tmp.next = node;
-        prev.next = tmp;
-        return tmp;
     }
 
 }
