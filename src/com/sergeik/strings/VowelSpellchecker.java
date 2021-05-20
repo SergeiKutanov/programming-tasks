@@ -52,6 +52,11 @@ public class VowelSpellchecker {
         Set<String> words = new HashSet<>();
         HashMap<String, String> caseMatch = new HashMap<>();
         HashMap<String, String> vowelMatch = new HashMap<>();
+
+        for (String str: caseMatch.values()) {
+
+        }
+
         for (String w: wordlist) {
             words.add(w);
             String lc = w.toLowerCase();
