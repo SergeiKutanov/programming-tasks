@@ -15,12 +15,58 @@ import java.util.*;
 public class NumberOfOperationsToMakeNetworkConnected {
 
     public static void main(String[] args) {
-        assert 3 == recSolution(11, new int[][]{
+        assert 3 == unionFindSolution(11, new int[][]{
                 {1,4},{0,3},{1,3},{3,7},{2,7},{0,1},{2,4},{3,6},{5,6},{6,7},{4,7},{0,7},{5,7}
         });
-        assert 1 == recSolution(6, new int[][]{{0,1}, {0,2}, {0,3}, {1,2}, {1,3}, {4,5}});
-        assert 2 == recSolution(6, new int[][]{{0,1}, {0,2}, {0,3}, {1,2}, {1,3}});
-        assert -1 == recSolution(6, new int[][]{{0,1}, {0,2}, {0,3}, {1,2}});
+        assert 1 == unionFindSolution(6, new int[][]{{0,1}, {0,2}, {0,3}, {1,2}, {1,3}, {4,5}});
+        assert 2 == unionFindSolution(6, new int[][]{{0,1}, {0,2}, {0,3}, {1,2}, {1,3}});
+        assert -1 == unionFindSolution(6, new int[][]{{0,1}, {0,2}, {0,3}, {1,2}});
+    }
+
+    private static int unionFindSolution(int n, int[][] connections) {
+        int[] size = new int[n];
+        int[] groups = new int[n];
+        int components = n;
+
+        if (n - 1 > connections.length)
+            return -1;
+
+        for (int i = 0; i < groups.length; i++) {
+            groups[i] = i;
+            size[i] = 1;
+        }
+
+        for (int[] connection: connections) {
+            int parentOne = find(groups, connection[0]);
+            int parentTwo = find(groups, connection[1]);
+
+            if (parentOne != parentTwo) {
+                if (size[parentOne] < size[parentTwo]) {
+                    size[parentTwo] += size[parentOne];
+                    groups[parentOne] = parentTwo;
+                } else {
+                    size[parentOne] += size[parentTwo];
+                    groups[parentTwo] = parentOne;
+                }
+                components--;
+            }
+        }
+
+        return components - 1;
+    }
+
+    private static int find(int[] groups, int node) {
+        int parent = node;
+        while (parent != groups[parent]) {
+            parent = groups[parent];
+        }
+
+        while (parent != groups[node]) {
+            node = groups[node];
+            groups[node] = parent;
+        }
+
+        return parent;
     }
 
     private static int recSolution(int n, int[][] connections) {
