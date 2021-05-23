@@ -26,8 +26,11 @@ public class MinimumSpeedToArriveOnTime {
 
     private static int solution(int[] dist, double hour) {
         int min = 1;
-        int max = 10000000;
         int ans = -1;
+        int max = 10_000_000;
+
+        if (dist.length - 1 > hour)
+            return -1;
 
         while (min <= max) {
             int middle = (max + min) / 2;
