@@ -44,38 +44,42 @@ public class SudokuSolver {
     }
 
     private static void solution(char[][] board) {
-        Map<Integer, boolean[]> rowsSet = new HashMap<>();
-        Map<Integer, boolean[]> colsSet = new HashMap<>();
-        for (int i = 0; i < board.length; i++) {
-            rowsSet.put(i, new boolean[10]);
-            colsSet.put(i, new boolean[10]);
-        }
+        boolean[][] rowsSet = new boolean[10][10];
+        boolean[][] colsSet = new boolean[10][10];
+        boolean[][] blockSet = new boolean[10][10];
         for (int r = 0; r < board.length; r++) {
             for (int c = 0; c < board.length; c++) {
                 if (board[r][c] != '.') {
-                    rowsSet.get(r)[board[r][c] - '0'] = true;
-                    colsSet.get(c)[board[r][c] - '0'] = true;
+                    int ch = board[r][c] - '0';
+                    rowsSet[r][ch] = true;
+                    colsSet[c][ch] = true;
+                    int blockId = r / 3 * 3 + c / 3;
+                    blockSet[blockId][ch] = true;
                 }
             }
         }
-        solve(board, rowsSet, colsSet);
+        solve(board, rowsSet, colsSet, blockSet);
     }
 
-    private static boolean solve(char[][] board, Map<Integer, boolean[]> rows, Map<Integer, boolean[]> cols) {
+    private static boolean solve(char[][] board, boolean[][] rows, boolean[][] cols, boolean[][] blocks) {
         for (int r = 0; r < board.length; r++) {
             for (int c = 0; c < board.length; c++) {
                 if (board[r][c] == '.') {
                     for (char ch = '1'; ch <= '9'; ch++) {
-                        if (isValid(board, r, c, ch, rows, cols)) {
+                        if (isValid(r, c, ch, rows, cols, blocks)) {
                             board[r][c] = ch;
-                            rows.get(r)[ch - '0'] = true;
-                            cols.get(c)[ch - '0'] = true;
-                            if (solve(board, rows, cols))
+                            int idx = ch - '0';
+                            rows[r][idx] = true;
+                            cols[c][idx] = true;
+                            int blockId = r / 3 * 3 + c / 3;
+                            blocks[blockId][idx] = true;
+                            if (solve(board, rows, cols, blocks))
                                 return true;
                             else {
                                 board[r][c] = '.';
-                                rows.get(r)[ch - '0'] = false;
-                                cols.get(c)[ch - '0'] = false;
+                                rows[r][idx] = false;
+                                cols[c][idx] = false;
+                                blocks[blockId][idx] = false;
                             }
 
                         }
@@ -87,16 +91,14 @@ public class SudokuSolver {
         return true;
     }
 
-    private static boolean isValid(char[][] board, int row, int col, char ch, Map<Integer, boolean[]> rows, Map<Integer, boolean[]> cols) {
-        if (rows.get(row)[ch - '0'] == true)
+    private static boolean isValid(int row, int col, char ch, boolean[][] rows, boolean[][] cols, boolean[][] blocks) {
+        int idx = ch - '0';
+        if (rows[row][idx] == true)
             return false;
-        if (cols.get(col)[ch - '0'] == true)
+        if (cols[col][idx] == true)
             return false;
-        //check block
-        for (int i = 0; i < board.length; i++) {
-            if (board[3 * (row / 3) + i / 3][3 * (col / 3) + i % 3] == ch)
-                return false;
-        }
+        if (blocks[row / 3 * 3 + col / 3][idx] == true)
+            return false;
         return true;
     }
 
