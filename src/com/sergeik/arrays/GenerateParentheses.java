@@ -31,4 +31,5 @@ public class GenerateParentheses {
        if (close < open)
            getCombinations(list, str + ")", open, close + 1, max);
     }
+
 }
