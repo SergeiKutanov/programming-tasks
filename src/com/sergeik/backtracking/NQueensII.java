@@ -6,9 +6,41 @@ package com.sergeik.backtracking;
 public class NQueensII {
 
     private static int counter = 0;
+    private static boolean[] diagUsed;
+    private static boolean[] antiDiagUsed;
+    private static boolean[] colsUsed;
 
     public static void main(String[] args) {
-        assert 2 == solution(4);
+        assert 2 == solution2(4);
+    }
+
+    private static int solution2(int n) {
+        diagUsed = new boolean[n + n];
+        antiDiagUsed = new boolean[n + n];
+        colsUsed = new boolean[n];
+        boolean[][] board = new boolean[n][n];
+        dfs2(board, 0);
+        return counter;
+    }
+
+    private static void dfs2(boolean[][] board, int col) {
+        if (col == board.length) {
+            counter++;
+            return;
+        }
+        for (int r = 0; r < board.length; r++) {
+            if (!diagUsed[r + col] && !antiDiagUsed[r - col + board.length] && !colsUsed[r]) {
+                diagUsed[r + col] = true;
+                antiDiagUsed[r - col + board.length] = true;
+                colsUsed[r] = true;
+                board[r][col] = true;
+                dfs2(board, col + 1);
+                board[r][col] = false;
+                diagUsed[r + col] = false;
+                antiDiagUsed[r - col + board.length] = false;
+                colsUsed[r] = false;
+            }
+        }
     }
 
     private static int solution(int n) {
