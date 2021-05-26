@@ -16,31 +16,35 @@ package com.sergeik.sortsearch;
 public class MaximumValueAtAGivenIndexInABoundedArray {
 
     public static void main(String[] args) {
+        assert 271698267 == solution(3, 0, 815094800);
+        assert 7 == solution(5, 0, 28);
+        assert 1 == solution(4, 0, 4);
         assert 3 == solution(6, 1, 10);
         assert 2 == solution(4, 2, 6);
     }
 
-
     private static int solution(int n, int index, int maxSum) {
         maxSum -= n;
-        int left = 0;
-        int right = maxSum;
+        int min = 0;
+        int max = maxSum;
         int middle;
-        while (left < right) {
-            middle = (left + right + 1) / 2;
-            if (verify(n, index, middle) <= maxSum)
-                left = middle;
-            else
-                right = middle - 1;
+        while (min < max) {
+            middle = (max + min + 1) / 2;
+            long cSum = getMinSum(n, index, middle);
+            if (cSum <= maxSum) {
+                min = middle;
+            } else if (cSum > maxSum) {
+                max = middle - 1;
+            }
         }
-        return left + 1;
+        return min + 1;
     }
 
-    private static long verify(int n, int index, int a) {
-        int b = Math.max(a - index, 0);
-        long res = (long) (a + b) * (a - b + 1) / 2;
-        b = Math.max(a - ((n - 1) - index), 0);
-        res += (long) (a + b) * (a - b + 1) / 2;
+    private static long getMinSum(int n, int index, int a) {
+        int leftLength = Math.max(0, a - index);
+        long res = (long) (a + leftLength) * (a - leftLength + 1) / 2; //a+....+b == (a+b)*(a-b+1)/2
+        int rightLength = Math.max(0, a - (n - index - 1));
+        res += (long) (a + rightLength) * (a - rightLength + 1) / 2;
         return res - a;
     }
 
