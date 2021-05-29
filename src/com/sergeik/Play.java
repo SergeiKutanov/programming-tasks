@@ -1,70 +1,49 @@
 package com.sergeik;
 
-import com.sergeik.trees.TreeNode;
-
-import java.util.HashSet;
-import java.util.Set;
-
 public class Play {
 
-    private static boolean found = false;
+    private static int counter = 0;
 
     public static void main(String[] args) {
-//        TreeNode root = new TreeNode(5);
-//        root.left = new TreeNode(3);
-//        root.right = new TreeNode(6);
-//        root.right.right = new TreeNode(7);
-//        root.left.left = new TreeNode(2);
-//        root.left.right = new TreeNode(4);
-//
-//        assert findTarget(root, 9);
 
-        assert "".equals(gcdOfStrings("ABCDEF", "ABC"));
-        assert "".equals(gcdOfStrings("LEET", "CODE"));
-        assert "AB".equals(gcdOfStrings("ABABAB", "ABAB"));
-        assert "ABC".equals(gcdOfStrings("ABCABC", "ABC"));
+        assert -1 == solutionSmaller(new int[] {1,2,3,4,5,6,7}, 0);
+        assert 6 == solutionSmaller(new int[] {1,2,3,4,5,6,7}, 8);
+        assert 4 == solutionSmaller(new int[] {1,2,3,4,5,6,7}, 6);
+        assert 2 == solutionSmaller(new int[] {1,2,3,4,5,6,7}, 4);
 
+        assert 2 == solutionGreater(new int[] {1,2,3,3,4,5,6,7}, 2);
+        assert 4 == solutionGreater(new int[] {1,2,3,3,4,5,6,7}, 3);
+        assert 0 == solutionGreater(new int[] {1,2,3,4,5,6,7}, 0);
+        assert 3 == solutionGreater(new int[] {1,2,3,4,5,6,7}, 3);
+        assert 7 == solutionGreater(new int[] {1,2,3,4,5,6,7}, 7);
     }
 
-    public static String gcdOfStrings(String str1, String str2) {
-        String shorter = str1.length() > str2.length() ? str2 : str1;
-        String longer = shorter.equals(str1) ? str2 : str1;
-        int index = 0;
-        while (index < shorter.length()) {
-            if (shorter.charAt(index) == longer.charAt(index)) {
-                index++;
+    private static int solutionSmaller(int[] nums, int n) {
+        int l = 0;
+        int r = nums.length - 1;
+        while (l <= r) {
+            int m = (l + r) / 2;
+            if (nums[m] >= n) {
+                r = m - 1;
             } else {
-                break;
+                l = m + 1;
             }
         }
-
-        if (index < shorter.length())
-            return "";
-        if (index < longer.length())
-            return gcdOfStrings(shorter, longer.substring(index));
-        if (index == longer.length())
-            return shorter;
-        return "";
+        return r;
     }
 
-    public static boolean findTarget(TreeNode root, int k) {
-        Set<Integer> set = new HashSet<>();
-        if (root == null)
-            return false;
-        trav(root, k, set);
-        return found;
-    }
-
-    private static void trav(TreeNode node, int k, Set<Integer> set) {
-        if (set.contains(k - node.val)) {
-            found = true;
-            return;
+    private static int solutionGreater(int[] nums, int n) {
+        int l = 0;
+        int r = nums.length - 1;
+        while (l <= r) {
+            int m = (l + r) / 2;
+            if (nums[m] <= n) {
+                l = m + 1;
+            } else {
+                r = m - 1;
+            }
         }
-        set.add(node.val);
-        if (node.left != null)
-            trav(node.left, k, set);
-        if (node.right != null)
-            trav(node.right, k, set);
+        return l;
     }
 
 }
