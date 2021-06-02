@@ -24,11 +24,15 @@ public class EggDropWith2EggsAndNFloors {
         //x(x + 1) = 2n
         //x^2 + x - 2n = 0
         //a = 1; b = 1; c = 2n
-        int root = 1 - 8 * n;
-        double ans1 = (-1 + Math.sqrt(-root)) / 2;
-        double ans2 = (-1 - Math.sqrt(-root)) / 2;
-        double ans = ans1 > 0 ? ans1 : ans2;
-        return (int) Math.ceil(ans);
+//        int root = 1 - 8 * n;
+//        double ans1 = (-1 + Math.sqrt(-root)) / 2;
+//        double ans2 = (-1 - Math.sqrt(-root)) / 2;
+//        double ans = ans1 > 0 ? ans1 : ans2;
+//        return (int) Math.ceil(ans);
+
+        return (int) Math.ceil(
+                Math.sqrt(1 + 8 * n - 1) / 2
+        );
     }
 
 }
