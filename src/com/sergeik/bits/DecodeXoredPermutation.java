@@ -20,11 +20,21 @@ public class DecodeXoredPermutation {
 
     private static int[] solution(int[] encoded) {
         int[] res = new int[encoded.length + 1];
-        for (int i = 1; i <= encoded.length + 1; i++) {
-            res[0] ^= i;
-            if (i < encoded.length && i % 2 == 1)
-                res[0] ^= encoded[i];
-        }
+        int m = (encoded.length + 1) % 4;
+        if (m == 0)
+            res[0] = 0;
+        else if (m == 1)
+            res[0] = 1;
+        else if (m == 2)
+            res[0] = encoded.length + 1;
+        else if (m == 3)
+            res[0] = 0;
+//        for (int i = 1; i <= encoded.length + 1; i++) {
+//            res[0] ^= i;
+//        }
+
+        for (int i = 1; i < encoded.length; i += 2)
+            res[0] ^= encoded[i];
         for (int i = 1; i < res.length; i++) {
             res[i] = encoded[i - 1] ^ res[i - 1];
         }
