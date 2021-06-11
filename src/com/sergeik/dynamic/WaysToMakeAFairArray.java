@@ -20,20 +20,30 @@ public class WaysToMakeAFairArray {
         assert 0 == solution(new int[] {1,2,3,4,5,6,7});
         assert 1 == solution(new int[] {2,1,6,4});
 
-        assert 3 == twoSumsSolution(new int[] {1,1,1});
-        assert 0 == twoSumsSolution(new int[] {1,2,3,4,5,6,7});
+//        assert 3 == twoSumsSolution(new int[] {1,1,1});
+//        assert 0 == twoSumsSolution(new int[] {1,2,3,4,5,6,7});
         assert 1 == twoSumsSolution(new int[] {2,1,6,4});
 
     }
 
     private static int twoSumsSolution(int[] nums) {
+
+        /*
+            2   1   6   4
+            0   0   |   8   5
+        2   0   0   |   6   5 - false
+        1   2   0   |   6   4 - true
+        6   2   1   |   0   4 - false
+        4   8   1   |   0   0 - false
+         */
+
         int res = 0, n = nums.length, left[] = new int[2], right[] = new int[2];
         for (int i = 0; i < n; i++)
-            right[i%2] += nums[i];
+            right[i % 2] += nums[i];
         for (int i = 0; i < n; i++) {
-            right[i%2] -= nums[i];
+            right[i % 2] -= nums[i];
             if (left[0]+right[1] == left[1]+right[0]) res++;
-            left[i%2] += nums[i];
+            left[i % 2] += nums[i];
         }
         return res;
     }
