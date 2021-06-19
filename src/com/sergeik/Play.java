@@ -7,32 +7,52 @@ public class Play {
 
 
     public static void main(String[] args) {
-        List<String> res = solution(3);
-        for (String s: res)
-            System.out.println(s);
+        NumArray numArray;
+
+        numArray = new NumArray(new int[] {1,2,3,4,5,6,7,8});
+        assert 10 == numArray.sumRange(0, 3);
+        assert 36 == numArray.sumRange(0, 7);
+        assert 22 == numArray.sumRange(3, 6);
+        numArray.update(3, 10);
+        assert 16 == numArray.sumRange(0,3);
+        assert 42 == numArray.sumRange(0,7);
+        assert 18 == numArray.sumRange(2, 4);
+        assert 31 == numArray.sumRange(2, 6);
+
+        numArray = new NumArray(new int[] {1, 3, 5});
+        numArray.sumRange(0, 2); // return 1 + 3 + 5 = 9
+        numArray.update(1, 2);   // nums = [1, 2, 5]
+        numArray.sumRange(0, 2); // return 1 + 2 + 5 = 8
     }
 
-    public static List<String> solution(int n) {
-        List<String> res = new LinkedList<>();
-        dfs(n, 0, 0, res, new StringBuilder());
-        return res;
-    }
+    static class NumArray {
 
-    private static void dfs(int n, int left, int right, List<String> res, StringBuilder sb) {
-        if (sb.length() == n * 2) {
-            res.add(sb.toString());
-            return;
+        int[] bit;
+
+        public NumArray(int[] nums) {
+            bit = new int[nums.length + 1];
+            for (int i = 0; i < nums.length; i++)
+                update(i, nums[i]);
         }
 
-        if (left < n) {
-            sb.append('(');
-            dfs(n, left + 1, right, res, sb);
-            sb.deleteCharAt(sb.length() - 1);
+        public void update(int index, int val) {
+            int cur = query(index) - query(index - 1);
+            int diff = val - cur;
+            index++;
+            for (; index < bit.length; index += index & -index)
+                bit[index] += diff;
         }
-        if (right < left) {
-            sb.append(')');
-            dfs(n, left, right + 1, res, sb);
-            sb.deleteCharAt(sb.length() - 1);
+
+        public int sumRange(int left, int right) {
+            return query(right) - query(left - 1);
+        }
+
+        private int query(int index) {
+            int sum = 0;
+            index++;
+            for (; index > 0; index -= index & -index)
+                sum += bit[index];
+            return sum;
         }
     }
 
