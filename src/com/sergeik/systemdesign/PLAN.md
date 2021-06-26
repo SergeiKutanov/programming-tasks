@@ -32,7 +32,8 @@ If applicable define API interface
 
 ## High level design
 Draw a high-level system diagram with 5-6 boxes representing main components of the
-system. Try to identify what type of storage we'll need, RDBMS or NoSQL.
+system. Try to identify what type of storage we'll need, RDBMS or NoSQL. If that's an
+object storage like S3, think of how to store metadata for objects.
 
 ## Detailed design
 Dive deeper into 2-3 components which require more attention. Present different 
@@ -43,7 +44,7 @@ approaches with pros and cons while keeping contraints in mind.
     * We can start with logical partitions (multiple DB servers on one server, easy to
     move after).
 * How much and at which level should we introduce cache, think about what cache policy
-to use (LRU|LFU).
+to use (LRU|LFU). Try 80/20 rule, 20% of data generates 80% of traffic.
 * Think about where to put load balancers and which approach to use:
     * Round robin - selects a live server randomly
     * Consider server load
