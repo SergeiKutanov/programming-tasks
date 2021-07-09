@@ -1,6 +1,5 @@
 package com.sergeik.sortsearch;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +28,21 @@ public class FriendsOfAppropriateAges {
     }
 
     private static int solution(int[] ages) {
+        Map<Integer, Integer> count = new HashMap<>();
+        for (int n: ages)
+            count.put(n, count.getOrDefault(n, 0) + 1);
+        int res = 0;
+        for (int i: count.keySet()) {
+            for (int j: count.keySet()) {
+                if (request(i, j)) {
+                    res += count.get(i) * (count.get(j) - (i == j ? 1 : 0));
+                }
+            }
+        }
+        return res;
+    }
+
+    private static int arraySolution(int[] ages) {
         int[] count = new int[121];
         for (int n: ages)
             count[n]++;
