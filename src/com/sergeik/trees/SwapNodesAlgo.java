@@ -73,9 +73,8 @@ public class SwapNodesAlgo {
                 tmp.right = n;
             }
             if (cLevel.isEmpty()) {
-                Stack<Node> t = cLevel;
                 cLevel = nLevel;
-                nLevel = t;
+                nLevel = new Stack<>();
                 level++;
             }
         }
