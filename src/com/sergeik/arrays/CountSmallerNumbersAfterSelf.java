@@ -4,6 +4,7 @@ import com.sergeik.linkedlists.ListHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -14,11 +15,43 @@ import java.util.List;
 public class CountSmallerNumbersAfterSelf {
 
     public static void main(String[] args) {
-        List<Integer> res = solution(new int[]{5,2,6,1});
+        List<Integer> res = bitSolution(new int[]{5,2,6,1});
         assert ListHelper.compareIntLists(Arrays.asList(2,1,1,0), res);
     }
 
-    private static List<Integer> solution(int[] nums) {
+    private static List<Integer> bitSolution(int[] nums) {
+        int offset = 10000; //offset negative numbers
+        int size = 2 * 10001;
+        int[] tree = new int[size];
+        List<Integer> res = new ArrayList<>();
+        for (int i = nums.length - 1; i >= 0; i--) {
+            int smallerCount = query(nums[i] + offset, tree);
+            res.add(smallerCount);
+            update(nums[i] + offset, 1, tree, size);
+        }
+        Collections.reverse(res);
+        return res;
+    }
+
+    private static void update(int index, int val, int[] tree, int size) {
+        index++;
+        while (index < size) {
+            tree[index] += val;
+            index += index & -index;
+        }
+    }
+
+    private static int query(int idx, int[] tree) {
+        int res = 0;
+        while (idx > 0) {
+            res += tree[idx];
+            idx -= idx & -idx;
+        }
+        return res;
+    }
+
+
+    private static List<Integer> mergeSortSolution(int[] nums) {
 
         if (nums.length == 0)
             return new ArrayList<>();
