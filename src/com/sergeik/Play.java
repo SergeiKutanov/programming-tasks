@@ -3,73 +3,65 @@ package com.sergeik;
 
 import com.sergeik.trees.TreeNode;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 
 public class Play {
 
-    private static Map<TreeNode, Map<TreeNode, Boolean>> memo = new HashMap<>();
-
     public static void main(String[] args) {
-        TreeNode root = new TreeNode(3);
-        root.left = new TreeNode(5);
-        root.left.left = new TreeNode(6);
-        root.left.right = new TreeNode(2);
-        root.left.right.left = new TreeNode(7);
-        root.left.right.right = new TreeNode(4);
-        root.right = new TreeNode(1);
-        root.right.left = new TreeNode(0);
-        root.right.right = new TreeNode(8);
+        List<List<Integer>> exp, res;
 
-        assert root.equals(lowestCommonAncestor(root, root.left, root.right));
-        assert root.left.equals(lowestCommonAncestor(root, root.left, root.left.right.right));
+        res = solution(new int[] {1,0,-1,0,-2,2}, 0);
+        exp = new LinkedList<>();
+        exp.add(Arrays.asList(1,2,-1,-2));
+        exp.add(Arrays.asList(0,2,0,-2));
+        exp.add(Arrays.asList(0,1,0,-1));
+        for (int i = 0; i < exp.size(); i++) {
+            for (int j = 0; j < exp.get(i).size(); j++) {
+                assert exp.get(i).get(j).equals(res.get(i).get(j));
+            }
+        }
     }
 
-    private static TreeNode solution(TreeNode root, TreeNode p, TreeNode q) {
-        Queue<TreeNode> pathToP = new LinkedList<>(), pathToQ = new LinkedList<>();
-        buildPath(root, p, pathToP);
-        buildPath(root, q, pathToQ);
-        TreeNode res = null;
-        while (!pathToP.isEmpty() && !pathToQ.isEmpty() && pathToP.peek().equals(pathToQ.peek())) {
-            res = pathToP.poll();
-            pathToQ.poll();
+    private static List<List<Integer>> solution(int[] nums, int target) {
+        Arrays.sort(nums);
+        return kSum(nums, target, 4, 0);
+    }
+
+    private static List<List<Integer>> kSum(int[] nums, int target, int k, int index) {
+        List<List<Integer>> res = new LinkedList<>();
+        if (index >= nums.length)
+            return res;
+        if (k == 2) {
+            int i = index;
+            int j = nums.length - 1;
+            while (i < j) {
+                int diff = target - nums[i];
+                if (diff == nums[j]) {
+                    List<Integer> tmp = new LinkedList<>();
+                    tmp.add(nums[i]);
+                    tmp.add(nums[j]);
+                    res.add(tmp);
+                    while (i < j && nums[i] == nums[i + 1]) i++;
+                    while (i < j && nums[j] == nums[j - 1]) j--;
+                    i++; j--;
+                } else if (diff > nums[j])
+                    i++;
+                else
+                    j--;
+            }
+        } else {
+            for (int i = index; i < nums.length - k + 2; i++) {
+                List<List<Integer>> tmp = kSum(nums, target - nums[i], k - 1, i + 1);
+                if (tmp.size() > 0) {
+                    for (List<Integer> l: tmp)
+                        l.add(nums[i]);
+                }
+                res.addAll(tmp);
+                while (i < nums.length - 1 && nums[i] == nums[i + 1])
+                    i++;
+            }
         }
         return res;
-    }
-
-    private static void buildPath(TreeNode root, TreeNode node, Queue<TreeNode> path) {
-        if (contains(root, node))
-            path.add(root);
-        else
-            return;
-        buildPath(root.left, node, path);
-        buildPath(root.right, node, path);
-    }
-
-    private static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        if (contains(root.left, p) && contains(root.left, q))
-            return lowestCommonAncestor(root.left, p, q);
-        if (contains(root.right, p) && contains(root.right, q))
-            return lowestCommonAncestor(root.right, p, q);
-        return root;
-    }
-
-    private static boolean contains(TreeNode node, TreeNode p) {
-        if (node == null)
-            return false;
-        if (node.equals(p))
-            return true;
-
-        if (memo.containsKey(node) && memo.get(node).containsKey(p))
-            return memo.get(node).get(p);
-
-        memo.computeIfAbsent(node, l -> new HashMap<>());
-        boolean inLeft = contains(node.left, p);
-        boolean inRight = contains(node.right, p);
-        memo.get(node).put(p, inLeft || inRight);
-        return memo.get(node).get(p);
     }
 
 }
