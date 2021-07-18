@@ -1,5 +1,9 @@
 package com.sergeik.design;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Implement the class SubrectangleQueries which receives a rows x cols rectangle as a matrix of integers in
  * the constructor and supports two methods:
@@ -30,22 +34,46 @@ public class SubrectangleQueriesDesign {
         assert 5 == subrectangleQueries.getValue(0,2);
     }
 
+//    static class SubrectangleQueries {
+//
+//        int[][] data;
+//
+//        public SubrectangleQueries(int[][] rectangle) {
+//            data = rectangle;
+//        }
+//
+//        public void updateSubrectangle(int row1, int col1, int row2, int col2, int newValue) {
+//            for (int r = row1; r <= row2; r++)
+//                for (int c = col1; c <= col2; c++)
+//                    data[r][c] = newValue;
+//        }
+//
+//        public int getValue(int row, int col) {
+//            return data[row][col];
+//        }
+//    }
+
     static class SubrectangleQueries {
 
         int[][] data;
+        List<int[]> history = new ArrayList<>();
 
         public SubrectangleQueries(int[][] rectangle) {
             data = rectangle;
         }
 
         public void updateSubrectangle(int row1, int col1, int row2, int col2, int newValue) {
-            for (int r = row1; r <= row2; r++)
-                for (int c = col1; c <= col2; c++)
-                    data[r][c] = newValue;
+            history.add(new int[] {row1, col1, row2, col2, newValue});
         }
 
         public int getValue(int row, int col) {
-            return data[row][col];
+            int res = data[row][col];
+            for (int i = history.size() - 1; i >= 0; i--) {
+                int[] rec = history.get(i);
+                if (row >= rec[0] && row <= rec[2] && col >= rec[1] && col <= rec[3])
+                    return rec[4];
+            }
+            return res;
         }
     }
 
