@@ -23,7 +23,7 @@ public class MaximumBinaryTree {
         TreeHelper.toArray(root, 0, res);
         assert Arrays.equals(exp, res);
     }
-    
+
     private static TreeNode solution(int[] nums) {
         return buildTree(nums, 0, nums.length - 1);
     }
