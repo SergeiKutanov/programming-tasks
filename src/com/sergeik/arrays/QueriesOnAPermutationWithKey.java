@@ -26,7 +26,7 @@ public class QueriesOnAPermutationWithKey {
             map.put(i, n + i);
         }
 
-        int[] res =new int[n];
+        int[] res = new int[n];
         for (int i = 0; i < n; i++) {
             int index = map.remove(queries[i]);
             res[i] = bit.prefixSum(index - 1);
