@@ -20,6 +20,7 @@ public class Play {
                 assert exp.get(i).get(j).equals(res.get(i).get(j));
             }
         }
+
     }
 
     private static List<List<Integer>> solution(int[] nums, int target) {
