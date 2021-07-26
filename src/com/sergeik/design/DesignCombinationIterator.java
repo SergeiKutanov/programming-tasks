@@ -47,27 +47,20 @@ public class DesignCombinationIterator {
         }
 
         private void populate(String characters, int combinationLength) {
-            //abcd - abc / abd / acb / acd / adb / adc / bac / bad / bca / bcd / bda / bdc
-            int mask = 0;
             StringBuilder comb = new StringBuilder();
-            dfs(comb, 0, mask, characters.toCharArray(), combinationLength);
+            dfs(comb, 0, characters.toCharArray(), combinationLength);
             return;
         }
 
-        private void dfs(StringBuilder sb, int idx, int mask, char[] chars, int length) {
+        private void dfs(StringBuilder sb, int idx, char[] chars, int length) {
             if (sb.length() == length) {
                 combinations.add(sb.toString());
                 return;
             }
             for (int i = idx; i < chars.length; i++) {
-                if ((mask & (1 << i)) == 0) {
-                    int prevMask = mask;
-                    mask |= 1 << i;
-                    sb.append(chars[i]);
-                    dfs(sb, i + 1, mask, chars, length);
-                    sb.setLength(sb.length() - 1);
-                    mask = prevMask;
-                }
+                sb.append(chars[i]);
+                dfs(sb, i + 1, chars, length);
+                sb.setLength(sb.length() - 1);
             }
         }
 
