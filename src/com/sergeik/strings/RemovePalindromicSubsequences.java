@@ -14,6 +14,7 @@ package com.sergeik.strings;
 public class RemovePalindromicSubsequences {
 
     public static void main(String[] args) {
+        assert 2 == solution("ab");
         assert 1 == solution("ababa");
         assert 2 == solution("abb");
         assert 0 == solution("");
