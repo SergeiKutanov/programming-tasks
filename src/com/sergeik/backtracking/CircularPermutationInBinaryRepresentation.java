@@ -17,7 +17,7 @@ public class CircularPermutationInBinaryRepresentation {
         assert Arrays.equals(new Integer[] {3,2,0,1}, solution(2, 3).toArray());
     }
 
-    private static List<Integer> solution(int n, int start) {
+    private static List<Integer> itSolution(int n, int start) {
         List<Integer> res = new ArrayList<>();
         for (int i = 0; i < 1 << n; i++) {
             res.add(i ^ (i >> 1));
@@ -26,6 +26,13 @@ public class CircularPermutationInBinaryRepresentation {
             res.add(res.get(0));
             res.remove(0);
         }
+        return res;
+    }
+
+    private static List<Integer> solution(int n, int start) {
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < 1 << n; i++)
+            res.add(start ^ i ^ i >> 1);
         return res;
     }
 
