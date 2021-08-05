@@ -21,19 +21,18 @@ public class ScoreOfParenthesis {
     }
 
     private static int solution(String s) {
-        Stack<Character> stack = new Stack<>();
-        int res = 0, d = 0;
+        int res = 0, d = 0, c = 0;
         for (char ch: s.toCharArray()) {
             if (ch == '(') {
                 d++;
-                stack.push(ch);
+                c++;
             } else {
                 int p = d;
-                if (p >= 0 && !stack.isEmpty())
+                if (p >= 0 && c > 0)
                     res += 1 << (p - 1);
                 d--;
-                while (!stack.isEmpty() && p-- > 0)
-                    stack.pop();
+                while (c > 0 && p-- > 0)
+                    c--;
             }
         }
         return res;
