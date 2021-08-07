@@ -8,6 +8,7 @@ package com.sergeik.dynamic;
 public class PalindromePartitioningII {
 
     public static void main(String[] args) {
+        assert 1 == solution("abbab");
         assert 1 == solution("aab");
     }
 
@@ -27,7 +28,7 @@ public class PalindromePartitioningII {
                     Cj-1 is same character which is always a palindrome
                  */
                 if (s.charAt(i) == s.charAt(j) && (i - j < 3 || pal[j + 1][i - 1])) {
-                    pal[i][j] = true;
+                    pal[j][i] = true;
                     min = j == 0 ? 0 : Math.min(min, count[j - 1] + 1);
                 }
             }
