@@ -20,22 +20,17 @@ public class MyCalendarIII {
     public static void main(String[] args) {
         MyCalendarThree myCalendarThree;
 
-        /*
-        ["MyCalendarThree","book","book","book","book","book","book","book","book","book","book"]
-            [[],[24,40],[43,50],[27,43],[5,21],[30,40],[14,29],[3,19],[3,14],[25,39],[6,19]]
-            [null,1,1,2,2,3,3,3,3,4,4]
-         */
-//        myCalendarThree = new MyCalendarThree();
-//        assert 1 == myCalendarThree.book(24,40);
-//        assert 1 == myCalendarThree.book(43,50);
-//        assert 2 == myCalendarThree.book(27,43);
-//        assert 2 == myCalendarThree.book(5,21);
-//        assert 3 == myCalendarThree.book(30,40);
-//        assert 3 == myCalendarThree.book(14,29);
-//        assert 3 == myCalendarThree.book(3,19);
-//        assert 3 == myCalendarThree.book(3, 14);
-//        assert 4 == myCalendarThree.book(25,39);
-//        assert 4 == myCalendarThree.book(6,19);
+        myCalendarThree = new MyCalendarThree();
+        assert 1 == myCalendarThree.book(24,40);
+        assert 1 == myCalendarThree.book(43,50);
+        assert 2 == myCalendarThree.book(27,43);
+        assert 2 == myCalendarThree.book(5,21);
+        assert 3 == myCalendarThree.book(30,40);
+        assert 3 == myCalendarThree.book(14,29);
+        assert 3 == myCalendarThree.book(3,19);
+        assert 3 == myCalendarThree.book(3, 14);
+        assert 4 == myCalendarThree.book(25,39);
+        assert 4 == myCalendarThree.book(6,19);
 
 
         myCalendarThree = new MyCalendarThree();
